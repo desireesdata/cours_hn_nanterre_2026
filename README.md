@@ -21,3 +21,9 @@ Exemple : pour le 27/01, le fichier s'appelle :
 cd blabla
 typst watch main.typ
 ```
+
+ou
+
+```
+typst watch hn_seance_01/typslides/main.typ 
+```

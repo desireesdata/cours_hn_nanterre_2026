@@ -21,7 +21,7 @@
   title: "Humanités numériques",
   subtitle: "Séance 1 : Introduction du cours",
   authors: "Intervenants : Joël Féral, Marina Hervieu",
-  info: [#link("https://github.com/manjavacas/typslides")],
+  info: [#link("https://github.com/desireesdata/cours_hn_nanterre_2026")],
 )
 
 ////////////////////////////////////////////////
@@ -270,11 +270,11 @@ des savoirs, des formes de mémoire et des pratiques vernaculaires.
   = L'histoire de l'informatique 
   est une dimension fondalementale de cette culture numérique.
   #framed()[
-    #bluey("--> Séances 1 et 2 : introduction aux HN & histoire de l'informatique")
+    #bluey("Séances 1 et 2 : introduction aux HN & histoire de l'informatique")
   ]
 
   Si les HN s'inscrivent dans la culture numérique, elles utilisent aussi les outils informatiques.#framed()[
-    #bluey("--> Séances 3, 4, 5 : application de l'informatique aux problématiques documentaires")
+    #bluey("Séances 3, 4, 5 : application de l'informatique aux problématiques documentaires")
   ]
 
 ]
@@ -310,8 +310,8 @@ des savoirs, des formes de mémoire et des pratiques vernaculaires.
   En groupe de 2–3, choisissez *un seul* item ci-dessous, puis répondez aux 4 questions.
 
   #framed(back-color: luma(96%))[
-    *Choisir un objet / une pratique :*
-    carnet de notes | journal intime | encyclopédie | album photo | carte | correspondance | bibliothèque | document d'archives | arts appliqués / plastiques | formulaire papier | catalogue | inventaire
+    *Choisir un objet ou une pratique ou un lieu:*
+    carnet de notes | journal intime | encyclopédie | album photo | carte | correspondance | bibliothèque | service d'archives | musée | formulaire papier | catalogue | inventaire | blog | un jeu de données 
   ]
 
   == Questions
