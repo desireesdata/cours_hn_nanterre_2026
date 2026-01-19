@@ -38,9 +38,9 @@
   == Intervenants
   //#framed[This text has been written using `#framed(text)`. The background color of the box is customisable.]
 
-  #framed(title: "Marina Hervieu")[Ingénieure d'études à #reddy("l'École nationale des Chartes") & Chargée de projet à la #reddy("Bibliothèque nationale de France")]
+  #framed(title: "Marina Hervieu")[Ingénieure d'études à l'École nationale des Chartes & Chargée de projet à la Bibliothèque nationale de France]
 
-  #framed(title: "Joël Féral")[Archiviste chargé des #reddy("données et des métadonnées") aux #reddy("Archives") de Seine-et-Marne]
+  #framed(title: "Joël Féral")[Archiviste chargé des données et des métadonnées aux Archives de Seine-et-Marne]
 ]
 
 #slide[
@@ -311,7 +311,7 @@ des savoirs, des formes de mémoire et des pratiques vernaculaires.
 
   #framed(back-color: luma(96%))[
     *Choisir un objet ou une pratique ou un lieu:*
-    carnet de notes | journal intime | encyclopédie | album photo | carte | correspondance | bibliothèque | service d'archives | musée | formulaire papier | catalogue | inventaire | blog | un jeu de données 
+    carnet de notes | journal intime | encyclopédie | album photo | carte | correspondance | bibliothèque | service d'archives | musée | formulaire papier | catalogue | inventaire | blog  
   ]
 
   == Questions
@@ -358,10 +358,171 @@ des savoirs, des formes de mémoire et des pratiques vernaculaires.
 
 
 #title-slide[
-  Histoire de l'informatique : partie 1.
-  === à suivre le 27/01 !
+  Histoire de l'informatique : un premier survol.
 ]
 
+#focus-slide[
+  Un point méthodologique : comment va t-on faire l'histoire de l'informatique
+]
+
+#slide(title: "Quand commence l’informatique ?", outlined: false)[
+  = Une question trompeuse
+
+  L’informatique commence-t-elle :
+  - avec les ordinateurs ?
+  - avec l’électronique ?
+  - au XXe siècle ?
+
+  #framed(back-color: luma(96%))[
+    #bluey[
+      En histoire, la réponse dépend toujours de ce que l’on choisit de définir
+      comme “informatique”.
+    ]
+  ]
+]
+
+#slide(title: "Faire l’histoire de quoi ?", outlined: false)[
+  = Plusieurs histoires possibles
+
+  - histoire des *machines*
+  - histoire des *idées* (logique, calcul)
+  - histoire des *pratiques* (compter, classer, enregistrer)
+  - histoire des *institutions* (État, administration, science)
+
+  #framed(back-color: white)[
+    #bluey[
+      L’histoire de l’informatique n’est pas une simple chronologie de technologies.
+    ]
+  ]
+]
+
+#slide(title: "La question des « précurseurs »", outlined: false)[
+  = Un problème classique
+
+  Peut-on parler de *précurseurs* de l’informatique
+  avant l’existence des ordinateurs ?
+
+  #framed(back-color: luma(96%))[
+    #bluey[
+      Attention au risque d’anachronisme :
+      projeter nos concepts actuels sur le passé.
+    ]
+  ]
+]
+
+#slide(title: "Exemple : Raymond Lulle", outlined: false)[
+ 
+ #image("img/lulle.jpg")
+ #image("img/llull_ars.jpg")
+
+  
+]
+
+#slide[
+  *Raymond* (1232? - 1315) Lulle propose :
+  - des systèmes *combinatoires*
+  - des règles *formelles*
+  - des dispositifs matériels (tables, roues)
+  - une ambition de raisonnement systématique
+
+  Peut-on dire qu’il “fait de l’informatique” ?
+]
+
+#slide(title: "Raymond Lulle : réponse méthodologique", outlined: false)[
+  = Une lecture rétrospective
+
+  Lulle ne fait pas de l’informatique... 
+  
+  Mais il développe des formes de raisonnement
+  que l’on peut *relire* à la lumière de l’informatique.
+
+  #framed(back-color: white)[
+    #bluey[
+      On ne parle pas de filiation directe,
+      mais de parentés intellectuelles.
+    ]
+  ]
+]
+
+#slide(title: "Exemple : la Pascaline", outlined: false)[
+  #image("img/pascaline.jpg")
+]
+
+
+#slide(title: "Exemple : la Pascaline", outlined: false)[
+
+  La Pascaline est une machine à calculer mécanique :
+  - additions et soustractions
+  - pensée pour des usages courants
+  - réduction de l’erreur humaine
+
+  Est-ce déjà de l’informatique ?
+]
+
+#slide(title: "La Pascaline : ce qu’elle montre", outlined: false)[
+  = Une étape clé
+
+
+  - automatisation partielle du calcul
+  - mécanisation d’une pratique existante
+  - lien entre calcul, technique et administration
+
+  #framed(back-color: luma(96%))[
+    #bluey[
+      La Pascaline ne “programme” rien,
+      mais elle transforme la pratique du calcul.
+    ]
+  ]
+
+]
+
+#slide[
+    == Une antithèse : de l'utilité de l'anachronisme (et la possibilité d'en faire l'éloge)
+    La combinatoire lullienne ou la Pascaline ne "font" pas encore de l’informatique...
+    ==== mais elles montrent comment certaines pratiques de calcul deviennent mécanisables, standardisées et déléguées à des dispositifs techniques.
+
+]
+
+#slide(title: "Idées, pratiques, machines", outlined: false)[
+  = Un point méthodologique central
+
+  - Les *idées* seules ne suffisent pas
+  - Les *machines* seules ne suffisent pas
+  - Les *pratiques sociales* sont déterminantes
+
+  L’informatique naît de leur articulation.
+]
+
+#slide[
+    == #bluey("L'histoire de l'informatique que l'on abordera se penchera donc sur la genèse des systèmes combinatoires, de leur concrétisation technique et des pratiques discursives qui instituent l'informatique comme discipline")
+]
+
+#slide(title: "À retenir", outlined: false)[
+  = Synthèse
+
+  - L’informatique n’a pas un seul point de départ
+  - Les « précurseurs » sont des constructions historiques
+  - L’histoire de l’informatique est aussi une histoire
+    du calcul, du classement et de l’automatisation
+
+  #framed(back-color: white)[
+    #bluey[
+      Faire l’histoire de l’informatique,
+      c’est *réfléchir à nos catégories autant qu’aux technologies*.
+    ]
+  ]
+]
+
+#slide(title: "Bibliographie facultative")[
+  === A titre indicatif, autour de la méthodologie historique :
+  - Michel Foucault, _L'archéologie du savoir_, Paris, éd. Gallimard, 1969. 
+  - Nicole Loreux, "Éloge de l'anachronisme en histoire", _Espace temps_ 2005.
+
+  === Autour de la genèse des objets techniques :
+  - Gilbert Simondon, _Du mode d'existence des objets techniques_, Paris, éd. Aubier-Montaigne, 1958
+
+  #grayed("Ces lectures sont facultatives et peu faciles, mais intéressantes si le sujet vous intéresse.")
+]
 
 // Bibliography
 #let bib = bibliography("bibliography.bib")
