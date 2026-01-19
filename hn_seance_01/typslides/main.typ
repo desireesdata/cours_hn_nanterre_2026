@@ -491,6 +491,8 @@ des savoirs, des formes de mémoire et des pratiques vernaculaires.
   - Les *pratiques sociales* sont déterminantes
 
   L’informatique naît de leur articulation.
+  
+  Il y a *reconnaissance* d'une telle discipline à l'intersection d'évolutions discursives, institutionnelles et techniques.
 ]
 
 #slide[
