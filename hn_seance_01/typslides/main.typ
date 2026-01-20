@@ -38,7 +38,7 @@
   == Intervenants
   //#framed[This text has been written using `#framed(text)`. The background color of the box is customisable.]
 
-  #framed(title: "Marina Hervieu")[Ingénieure d'études à l'École nationale des Chartes & Chargée de projet à la Bibliothèque nationale de France]
+  #framed(title: "Marina Hervieu")[Ingénieure d'études à l'École nationale des Chartes & Chercheuse associée à la Bibliothèque nationale de France]
 
   #framed(title: "Joël Féral")[Archiviste chargé des données et des métadonnées aux Archives de Seine-et-Marne]
 ]
@@ -211,12 +211,12 @@ Deux notes (chacune valant 50% de la note finale)
 
 ]
 
-#slide[
+// #slide[
 
-   #framed(back-color: white)[
-    #bluey("Un exemple concret : le projet Mezanno.")
-  ]
-]
+//    #framed(back-color: white)[
+//     #bluey("Un exemple concret : le projet Mezanno.")
+//   ]
+// ]
 
 #slide(title: "Du besoin d'une \"culture numérique\"", outlined: false)[
 
@@ -318,7 +318,8 @@ des savoirs, des formes de mémoire et des pratiques vernaculaires.
   1. À quoi ça sert ?
   2. Qu’est-ce que ça *conserve* ? (information / mémoire / trace / savoir-faire…)
   3. Qui l’utilise ? (individus / institutions / communautés)
-  4. Qu’est-ce que le numérique change ? (format, accès, tri, circulation, pérennité...)
+  4. Est-il papier ? _numérisé_ ? ou _nativement numérique_ ?
+  5. Qu’est-ce que le numérique change ? (format, accès, tri, circulation, pérennité...)
 ]
 
 #slide(title: "Étape 2 — Restitution (8–10 min)", outlined: false)[
