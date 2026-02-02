@@ -560,10 +560,10 @@
 
 #title-slide[
   Parlons de quelques "idées".
-  N°3. Les réticulations
+  N°3. Les réseaux
 ]
 
-#slide(title: "N°3. Les réticulations", outlined: false)[
+#slide(title: "N°3. Les réseaux", outlined: false)[
   = Qu’est-ce qu’un réseau ?
 
   Un réseau est :
