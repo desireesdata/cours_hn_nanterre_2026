@@ -164,7 +164,7 @@
 
   === Question proposée : *Comment le numérique est-il présenté dans ce corpus ?*
 
-  === Consigne (20–25 min)
+  === Consigne (30/35 min)
   1. Définissez *3 catégories d’annotation* pertinentes.
   2. Annotez chaque extrait avec vos catégories.
   3. Comptez : combien d’extraits par catégorie ?
@@ -186,6 +186,7 @@ outils méthodes / enjeux /
 recherche / culture / politique /
 technique / critique /
 pratiques / institutions / savoir
+émotions
 ]
 
 #slide(title: "Retour collectif", outlined: false)[
@@ -202,8 +203,53 @@ pratiques / institutions / savoir
   ]
 ]
 
+#slide(title: "Exercice de clôture : où est le numérique ?", outlined: false)[
+  = Consigne (5–10 min)
+
+  Prenons une situation *non numérique* (bibliothèque papier, formulaire imprimé, carnet, archive...)
+
+  En petits groupes ou collectivement :
+  - où y a-t-il déjà de la *discrétisation* ?
+  - où transforme-t-on des pratiques en *information* ?
+  - quels choix rendent la situation *calculable* ?
+
+  #framed(back-color: luma(96%))[
+    #bluey[
+      Le numérique ne commence pas avec l’ordinateur,
+      mais avec certaines manières d’organiser le monde.
+    ]
+  ]
+]
+
+#slide(title: "Bibliothèque papier : une discrétisation sans ordinateur", outlined: false)[
+  = Que discrétise une bibliothèque ?
+
+  Même sans informatique, une bibliothèque papier repose sur :
+
+  - des *unités* : livres, volumes, exemplaires ;
+  - des *catégories* : auteurs, sujets, dates ;
+  - des *classements* : rayons, cotes, disciplines ;
+  - des *accès* : catalogues, index, fiches.
+
+  #framed(back-color: luma(96%))[
+    #bluey[
+      Le numérique prolonge et automatise
+      des opérations déjà présentes.
+    ]
+  ]
+]
+
+#focus-slide[
+  Penser les mots et les choses --> Penser les catégories, travailler avec
+]
+
+#focus-slide[
+  Coup d'oeil rapide sur Gallica.
+]
 
 
-// Bibliography
-#let bib = bibliography("bibliography.bib")
-#bibliography-slide(bib)
+
+
+// // Bibliography
+// #let bib = bibliography("bibliography.bib")
+// #bibliography-slide(bib)
