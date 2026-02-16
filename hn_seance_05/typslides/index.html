@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Mini moteur XML (sans dépendances)</title>
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;max-width:900px;margin:24px auto;padding:0 16px;line-height:1.4}
+    textarea,input,select,button{font:inherit}
+    textarea{width:100%;min-height:180px}
+    .row{display:flex;gap:12px;flex-wrap:wrap;align-items:end;margin:12px 0}
+    .row > *{flex:1}
+    .row .small{flex:0 0 180px}
+    button{padding:10px 12px;cursor:pointer}
+    .hint{color:#555;font-size:.95rem}
+    .card{border:1px solid #ddd;border-radius:10px;padding:12px;margin:12px 0;background:#fff}
+    .kpi{display:flex;gap:10px;flex-wrap:wrap}
+    .pill{display:inline-block;padding:2px 8px;border-radius:999px;background:#f2f2f2;font-size:.9rem}
+    .hl{background: #fff59d; padding:0 2px; border-radius:3px}
+    pre{white-space:pre-wrap;background:#fafafa;border:1px solid #eee;padding:10px;border-radius:10px}
+    .err{color:#b00020}
+  </style>
+</head>
+<body>
+  <h1>Mini moteur de recherche XML (métadonnées → moins d’ambiguïté)</h1>
+  <p class="hint">
+    Cherche <b>Nancy</b> en filtrant par <b>auteur</b> ou <b>lieu</b> pour voir la différence.
+    Compare aussi avec la recherche <b>texte brut</b>.
+  </p>
+
+  <label for="xmlInput"><b>Document XML</b></label>
+  <textarea id="xmlInput" spellcheck="false"></textarea>
+
+  <div class="row">
+    <div>
+      <label for="q"><b>Requête</b></label>
+      <input id="q" placeholder="ex: Nancy, Victor, Paris, 1802, Fictif..." />
+    </div>
+
+    <div class="small">
+      <label for="mode"><b>Mode</b></label>
+      <select id="mode">
+        <option value="structured">Structuré (par balise)</option>
+        <option value="raw">Texte brut (sans balises)</option>
+      </select>
+    </div>
+
+    <div class="small">
+      <label for="tag"><b>Filtre</b></label>
+      <select id="tag">
+        <option value="*">Toutes balises</option>
+        <option value="auteur">auteur</option>
+        <option value="lieu">lieu</option>
+        <option value="date">date</option>
+        <option value="metier">metier</option>
+        <option value="nationalite">nationalite</option>
+        <option value="oeuvre">oeuvre</option>
+      </select>
+    </div>
+
+    <div class="small">
+      <button id="searchBtn">Rechercher</button>
+    </div>
+  </div>
+
+  <div id="status" class="hint"></div>
+  <div id="error" class="err"></div>
+
+  <h2>Résultats</h2>
+  <div id="results"></div>
+
+  <h2>Extrait reconstruit (lecture humaine)</h2>
+  <div class="card">
+    <div class="hint">Ici, on affiche le texte “tel que lu”, mais on garde la structure pour interroger précisément.</div>
+    <pre id="renderedText"></pre>
+  </div>
+
+<script>
+(() => {
+  // --- XML de démonstration (corrigé pour être bien formé : balises fermées + accents cohérents) ---
+  const demoXML = `<?xml version="1.0" encoding="UTF-8"?>
+<texte>
+  <p>
+    <auteur>Victor Hugo</auteur> est né à
+    <lieu>Besançon</lieu> en
+    <date when="1802">1802</date>.
+    Il est un <metier>écrivain</metier>
+    <nationalite>français</nationalite>.
+  </p>
+
+  <p>
+    Quant à M. <auteur>Nancy</auteur>,
+    <lieu>Paris</lieu>, il a écrit le roman <oeuvre>Fictif</oeuvre>.
+    Rien à voir avec la ville de <lieu>Nancy</lieu>.
+  </p>
+</texte>`;
+
+  const $ = (id) => document.getElementById(id);
+  const xmlInput = $("xmlInput");
+  const q = $("q");
+  const mode = $("mode");
+  const tag = $("tag");
+  const results = $("results");
+  const status = $("status");
+  const error = $("error");
+  const renderedText = $("renderedText");
+
+  xmlInput.value = demoXML;
+
+  function parseXML(str) {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(str, "application/xml");
+    const parseError = doc.querySelector("parsererror");
+    if (parseError) {
+      throw new Error("XML invalide : " + parseError.textContent.replace(/\s+/g, " ").trim());
+    }
+    return doc;
+  }
+
+  function normalize(s) {
+    // Normalisation simple : minuscules + suppression des accents
+    return (s ?? "")
+      .toString()
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  }
+
+  function highlight(text, needle) {
+    if (!needle) return escapeHTML(text);
+    const n = normalize(needle);
+    if (!n) return escapeHTML(text);
+
+    // surlignage approximatif en retrouvant des occurrences en ignorant la casse,
+    // mais pas parfait accent-insensible : assez pour la démo.
+    const re = new RegExp(needle.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "gi");
+    return escapeHTML(text).replace(re, (m) => `<span class="hl">${escapeHTML(m)}</span>`);
+  }
+
+  function escapeHTML(s) {
+    return (s ?? "").replace(/[&<>"']/g, c => ({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    }[c]));
+  }
+
+  function getHumanReadableText(doc) {
+    // Reconstruit le texte "tel que lu" (sans afficher les balises)
+    // en conservant les espaces dans les noeuds de texte.
+    const root = doc.documentElement;
+    const walker = doc.createTreeWalker(root, NodeFilter.SHOW_TEXT, null);
+    let out = "";
+    while (walker.nextNode()) out += walker.currentNode.nodeValue;
+    return out.replace(/[ \t]+\n/g, "\n").replace(/\n[ \t]+/g, "\n").replace(/\n{3,}/g, "\n\n").trim();
+  }
+
+  function searchStructured(doc, query, tagName) {
+    const nq = normalize(query);
+    if (!nq) return [];
+
+    // Si tagName="*" on cherche dans toutes les balises élémentaires intéressantes,
+    // sinon uniquement dans celle choisie.
+    const nodes = (tagName === "*")
+      ? Array.from(doc.documentElement.querySelectorAll("auteur,lieu,date,metier,nationalite,oeuvre"))
+      : Array.from(doc.documentElement.getElementsByTagName(tagName));
+
+    const hits = [];
+    for (const el of nodes) {
+      const value = (el.textContent || "").trim();
+      if (!value) continue;
+
+      if (normalize(value).includes(nq)) {
+        const attrs = Array.from(el.attributes || []).map(a => `${a.name}="${a.value}"`);
+        hits.push({
+          tag: el.tagName,
+          value,
+          attrs,
+          context: getContext(el)
+        });
+      }
+    }
+    return hits;
+
+    function getContext(el) {
+      // Contexte : phrase (approx) = texte du parent <p> s'il existe, sinon parent direct
+      const parentP = el.closest("p");
+      const container = parentP || el.parentElement || doc.documentElement;
+      const text = container.textContent.replace(/\s+/g, " ").trim();
+      return text;
+    }
+  }
+
+  function searchRaw(doc, query) {
+    const text = getHumanReadableText(doc);
+    const nq = normalize(query);
+    if (!nq) return [];
+
+    // On retourne juste des "occurrences" approximatives : extrait autour de chaque match.
+    const normText = normalize(text);
+    const normQ = normalize(query);
+    const hits = [];
+
+    let idx = 0;
+    while (true) {
+      const found = normText.indexOf(normQ, idx);
+      if (found === -1) break;
+
+      const start = Math.max(0, found - 35);
+      const end = Math.min(text.length, found + query.length + 35);
+
+      hits.push({
+        excerpt: text.slice(start, end).replace(/\s+/g, " ").trim()
+      });
+
+      idx = found + Math.max(1, normQ.length);
+      if (hits.length > 50) break; // sécurité
+    }
+    return hits;
+  }
+
+  function render() {
+    error.textContent = "";
+    results.innerHTML = "";
+    status.textContent = "";
+
+    let doc;
+    try {
+      doc = parseXML(xmlInput.value);
+    } catch (e) {
+      error.textContent = e.message;
+      renderedText.textContent = "";
+      return;
+    }
+
+    // Affichage lecture humaine
+    renderedText.textContent = getHumanReadableText(doc);
+
+    const query = q.value.trim();
+    const m = mode.value;
+    const t = tag.value;
+
+    if (!query) {
+      status.textContent = "Tape une requête (ex: Nancy) puis clique Rechercher.";
+      return;
+    }
+
+    if (m === "structured") {
+      const hits = searchStructured(doc, query, t);
+      status.innerHTML = `<div class="kpi">
+        <span class="pill">Mode: structuré</span>
+        <span class="pill">Filtre: ${escapeHTML(t)}</span>
+        <span class="pill">${hits.length} résultat(s)</span>
+      </div>`;
+
+      if (!hits.length) {
+        results.innerHTML = `<div class="card">Aucun résultat.</div>`;
+        return;
+      }
+
+      for (const h of hits) {
+        const attrText = h.attrs.length ? ` <span class="pill">${escapeHTML(h.attrs.join(" "))}</span>` : "";
+        results.insertAdjacentHTML("beforeend", `
+          <div class="card">
+            <div><b>&lt;${escapeHTML(h.tag)}&gt;</b>${attrText}</div>
+            <div style="margin-top:6px">Valeur: ${highlight(h.value, query)}</div>
+            <div class="hint" style="margin-top:8px">Contexte: ${highlight(h.context, query)}</div>
+          </div>
+        `);
+      }
+    } else {
+      const hits = searchRaw(doc, query);
+      status.innerHTML = `<div class="kpi">
+        <span class="pill">Mode: texte brut</span>
+        <span class="pill">${hits.length} occurrence(s)</span>
+      </div>`;
+
+      if (!hits.length) {
+        results.innerHTML = `<div class="card">Aucune occurrence.</div>`;
+        return;
+      }
+
+      for (const h of hits) {
+        results.insertAdjacentHTML("beforeend", `
+          <div class="card">
+            <div>Extrait: ${highlight(h.excerpt, query)}</div>
+            <div class="hint" style="margin-top:6px">
+              Ici, on ne sait pas si “${escapeHTML(query)}” est un <b>auteur</b>, un <b>lieu</b>, etc.
+            </div>
+          </div>
+        `);
+      }
+    }
+  }
+
+  $("searchBtn").addEventListener("click", render);
+  q.addEventListener("keydown", (e) => { if (e.key === "Enter") render(); });
+
+  // UX: désactive le filtre en mode "raw"
+  mode.addEventListener("change", () => {
+    const structured = mode.value === "structured";
+    tag.disabled = !structured;
+    tag.title = structured ? "" : "Le filtre par balise n'a de sens qu'en mode structuré.";
+    render();
+  });
+
+  // Premier rendu
+  mode.dispatchEvent(new Event("change"));
+})();
+</script>
+</body>
+</html>
