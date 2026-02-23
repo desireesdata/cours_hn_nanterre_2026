@@ -51,8 +51,8 @@
 
 
 #title-slide[
-  Travaux exposés
-  Institutions patrimoniales, numérique et SHS
+  Thématiques proposées pour l'exposé en HN
+  
 ]
 
 
@@ -64,7 +64,7 @@
 
   - 24 février : proposition d’une liste de sujets (ou sujet libre, à valider par mail)
   - 10 mars : choix définitif du sujet
-  - 17 mars : visite
+  - 17 mars : visite à la BnF
   - 31 mars : choix des modalités de restitution
   - 7 avril : séance de restitution (exposés)
 
